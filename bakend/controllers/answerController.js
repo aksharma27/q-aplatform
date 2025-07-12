@@ -1,5 +1,5 @@
-const Answer = require('../model/Answer');
-const Question = require('../model/Question');
+const Answer = require('../model/answer');
+const Question = require('../model/question');
 const Notification = require('../model/Notification');
 
 exports.addAnswer = async (req, res) => {
@@ -8,11 +8,17 @@ exports.addAnswer = async (req, res) => {
     const question = await Question.findById(req.params.questionId);
     if (!question) return res.status(404).json({ msg: 'Question not found' });
 
+    if (!content) {
+      return res.status(400).json({ error: 'Content is required' });
+    }
+
     const answer = await Answer.create({
       content,
       author: req.user.id,
       question: req.params.questionId
     });
+    question.answers.push(answer._id);
+    await question.save();
 
     // Notify question author
     if (question.author.toString() !== req.user.id) {
@@ -23,6 +29,9 @@ exports.addAnswer = async (req, res) => {
         link: `/questions/${question._id}`
       });
     }
+
+    const io = req.app.get('io');
+    io.emit('answerAdded', { questionId: req.params.questionId, answer });
 
     res.status(201).json(answer);
   } catch (err) {
@@ -39,10 +48,14 @@ exports.voteAnswer = async (req, res) => {
 
     answer.votes.up.pull(userId);
     answer.votes.down.pull(userId);
-    if (type === 'up') answer.votes.up.push(userId);
-    if (type === 'down') answer.votes.down.push(userId);
+    if (type === 'up' && !answer.votes.up.includes(userId)) answer.votes.up.push(userId);
+    if (type === 'down' && !answer.votes.down.includes(userId)) answer.votes.down.push(userId);
 
     await answer.save();
+
+    const io = req.app.get('io');
+    io.emit('voteUpdated', { answerId: answer._id, votes: answer.votes });
+
     res.status(200).json({ msg: 'Vote updated' });
   } catch (err) {
     res.status(500).json({ msg: 'Voting failed', error: err.message });

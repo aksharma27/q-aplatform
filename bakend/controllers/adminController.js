@@ -1,5 +1,5 @@
 const User = require('../model/user')
-const Question = require('../model/Question');
+const Question = require('../model/question');
 const Notification = require('../model/Notification');
 const { Parser } = require('json2csv');
 

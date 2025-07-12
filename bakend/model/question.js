@@ -9,7 +9,8 @@ const questionSchema = new mongoose.Schema({
   votes: {
     up:   [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
     down: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }]
-  }
+  },
+  answers: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Answer' }]
 }, { timestamps: true });
 
 module.exports = mongoose.models.Question || mongoose.model('Question', questionSchema);

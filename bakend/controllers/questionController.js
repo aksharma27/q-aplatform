@@ -4,6 +4,12 @@ const Answer = require('../model/answer');
 exports.createQuestion = async (req, res) => {
   try {
     const { title, description, tags } = req.body;
+
+    // Basic validation
+    if (!title || !description || !Array.isArray(tags) || tags.length === 0) {
+      return res.status(400).json({ error: 'Title, description, and at least one tag are required' });
+    }
+
     const question = await Question.create({
       title,
       description,
@@ -31,13 +37,9 @@ exports.getAllQuestions = async (req, res) => {
 exports.getQuestionById = async (req, res) => {
   try {
     const question = await Question.findById(req.params.id)
-      .populate('author', 'username')
-      .populate({
-        path: 'acceptedAnswer',
-        populate: { path: 'author', select: 'username' }
-      });
+      .populate({ path: 'answers', model: 'Answer' });
     if (!question) return res.status(404).json({ msg: 'Question not found' });
-    res.status(200).json(question);
+    res.json(question);
   } catch (err) {
     res.status(500).json({ msg: 'Failed to fetch question', error: err.message });
   }
