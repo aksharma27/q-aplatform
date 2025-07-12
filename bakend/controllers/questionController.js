@@ -66,21 +66,16 @@ exports.voteQuestion = async (req, res) => {
 };
 
 exports.acceptAnswer = async (req, res) => {
-  const { id, answerId } = req.params;
   try {
-    const question = await Question.findById(id);
+    const { id: questionId, answerId } = req.params;
+    const userId = req.user.id;
+    const question = await Question.findById(questionId);
     if (!question) return res.status(404).json({ msg: 'Question not found' });
-
-    if (question.author.toString() !== req.user.id)
-      return res.status(403).json({ msg: 'Only the question owner can accept an answer' });
-
-    const answer = await Answer.findById(answerId);
-    if (!answer || answer.question.toString() !== id)
-      return res.status(400).json({ msg: 'Invalid answer' });
-
-    question.acceptedAnswer = answer._id;
+    if (question.author.toString() !== userId.toString()) return res.status(403).json({ msg: 'Not authorized' });
+    if (!question.answers.includes(answerId)) return res.status(400).json({ msg: 'Answer not found for this question' });
+    question.acceptedAnswer = answerId;
     await question.save();
-    res.status(200).json({ msg: 'Answer marked as accepted' });
+    res.status(200).json({ msg: 'Answer accepted', acceptedAnswer: answerId });
   } catch (err) {
     res.status(500).json({ msg: 'Failed to accept answer', error: err.message });
   }

@@ -1,8 +1,8 @@
-import React, { useEffect, useState, useContext } from 'react';
-import { useParams } from 'react-router-dom';
+import React, { useEffect, useState, useContext, useRef } from 'react';
+import { useParams, Link } from 'react-router-dom';
 import api from '../api'; // Adjust the import path as necessary
 import { AuthContext } from '../context/AuthContext';
-import ReactQuill, { Quill } from 'react-quill';
+import ReactQuill from 'react-quill';
 import { toast } from 'react-toastify';
 import 'react-quill/dist/quill.snow.css';
 import EmojiPicker from 'emoji-picker-react';
@@ -10,6 +10,9 @@ import './QuestionDetail.css'; // Add this import
 import socket from '../main';
 import { io } from "socket.io-client";
 import ErrorBoundary from '../components/ErrorBoundary';
+
+const CLOUDINARY_URL = "https://api.cloudinary.com/v1_1/dukdahrd9/image/upload";
+const CLOUDINARY_PRESET = "ungined_preset_odoo";
 
 const QuestionDetail = () => {
   const { id } = useParams();
@@ -21,6 +24,7 @@ const QuestionDetail = () => {
   const [notificationCount, setNotificationCount] = useState(0);
   const [hasNotification, setHasNotification] = useState(false);
   const [alignment, setAlignment] = useState("left");
+  const quillRef = useRef(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -129,15 +133,45 @@ const QuestionDetail = () => {
     setShowEmojiPicker(false);
   };
 
-  // Add strikethrough to Quill toolbar
+  useEffect(() => {
+    if (quillRef.current) {
+      const quill = quillRef.current.getEditor();
+      quill.getModule('toolbar').addHandler('image', () => {
+        const input = document.createElement('input');
+        input.setAttribute('type', 'file');
+        input.setAttribute('accept', 'image/*');
+        input.click();
+        input.onchange = async () => {
+          const file = input.files[0];
+          const formData = new FormData();
+          formData.append('file', file);
+          formData.append('upload_preset', CLOUDINARY_PRESET);
+          try {
+            const res = await fetch(CLOUDINARY_URL, {
+              method: 'POST',
+              body: formData
+            });
+            const data = await res.json();
+            const imageUrl = data.secure_url;
+            const quill = document.querySelector('.ql-editor').__quill;
+            const range = quill.getSelection();
+            quill.insertEmbed(range.index, 'image', imageUrl);
+          } catch (err) {
+            toast.error('Image upload failed');
+          }
+        };
+      });
+    }
+  }, [quillRef]);
+
   const modules = {
     toolbar: [
       [{ 'header': [1, 2, false] }],
       ['bold', 'italic', 'underline', 'strike'],
       [{ 'list': 'ordered'}, { 'list': 'bullet' }],
-      ['link', 'emoji'],
+      ['link', 'image', 'emoji'],
       ['clean'],
-      [{ 'align': [] }], // add alignment action
+      [{ 'align': [] }],
     ]
   };
 
@@ -145,6 +179,13 @@ const QuestionDetail = () => {
 
   return (
     <ErrorBoundary>
+      <nav className="breadcrumb-nav" style={{marginBottom: '1.2rem'}}>
+        <Link to="/" className="breadcrumb-link">Home</Link>
+        <span className="breadcrumb-separator">&gt;</span>
+        <Link to="/" className="breadcrumb-link">Questions</Link>
+        <span className="breadcrumb-separator">&gt;</span>
+        <span className="breadcrumb-current">Question Detail</span>
+      </nav>
       <div style={{ marginBottom: '1rem', textAlign: 'left', width: '100%' }}>
         <label style={{ marginRight: '1rem' }}>Text Alignment:</label>
         <select value={alignment} onChange={e => setAlignment(e.target.value)}>
@@ -172,7 +213,7 @@ const QuestionDetail = () => {
             <p className="answer-votes">Votes: {a.votes.up.length - a.votes.down.length}</p>
             <button className="answer-btn" onClick={() => voteAnswer(a._id, 'up')}>Upvote</button>
             <button className="answer-btn" onClick={() => voteAnswer(a._id, 'down')}>Downvote</button>
-            {user && user.id === question.author._id && question.acceptedAnswer !== a._id && (
+            {user && question.author && (user.id === question.author._id || user._id === question.author._id) && question.acceptedAnswer !== a._id && (
               <button className="answer-btn" onClick={() => acceptAnswer(a._id)}>Accept</button>
             )}
             {question.acceptedAnswer === a._id && <span className="answer-accepted">✅ Accepted</span>}
@@ -181,7 +222,7 @@ const QuestionDetail = () => {
         {user && (
           <div>
             <h4>Your Answer</h4>
-            <ReactQuill value={answer} onChange={setAnswer} modules={modules} className={`align-${alignment}`} />
+            <ReactQuill ref={quillRef} value={answer} onChange={setAnswer} modules={modules} className={`align-${alignment}`} />
             <button type="button" onClick={() => setShowEmojiPicker(true)}>😊</button>
             {showEmojiPicker && (
               <EmojiPicker onEmojiClick={handleEmojiClick} />
