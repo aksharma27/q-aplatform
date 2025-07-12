@@ -1,0 +1,144 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Roboto:wght@400;500&display=swap');
+
+body.dark-mode {
+  background: #181a1b;
+  color: #e2e8f0;
+}
+
+.ask-form {
+  font-family: 'Roboto', Arial, sans-serif;
+  max-width: 500px;
+  margin: 3rem auto;
+  background: #fff;
+  border-radius: 14px;
+  box-shadow: 0 2px 16px rgba(49,130,206,0.10);
+  padding: 2.5rem 2rem 2rem 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.ask-title {
+  font-family: 'Montserrat', Arial, sans-serif;
+  font-size: 2rem;
+  color: #3182ce;
+  margin-bottom: 2rem;
+  text-align: center;
+  letter-spacing: 1px;
+}
+.ask-input {
+  font-size: 1.08rem;
+  padding: 0.7rem 1rem;
+  border-radius: 8px;
+  border: 1.5px solid #cbd5e1;
+  background: #f7fafc;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  outline: none;
+  font-family: 'Roboto', Arial, sans-serif;
+  margin-bottom: 1rem;
+}
+.ask-input:focus {
+  border-color: #3182ce;
+  box-shadow: 0 0 0 2px #3182ce33;
+}
+.ask-quill {
+  width: 100%;
+  margin-bottom: 1rem;
+}
+.ask-btn {
+  background: linear-gradient(90deg, #3182ce 0%, #e53e3e 100%);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 0.7rem 1.2rem;
+  font-size: 1.1rem;
+  font-family: 'Montserrat', Arial, sans-serif;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.2s, box-shadow 0.2s;
+  box-shadow: 0 2px 8px rgba(49,130,206,0.08);
+  margin-top: 1rem;
+}
+.ask-btn:hover {
+  background: linear-gradient(90deg, #2b6cb0 0%, #e53e3e 100%);
+}
+.ask-error {
+  color: #e53e3e;
+  font-size: 0.95rem;
+  margin-top: -0.8rem;
+  margin-bottom: 0.2rem;
+  font-family: 'Roboto', Arial, sans-serif;
+}
+.ask-emoji-btn {
+  background: none;
+  border: none;
+  font-size: 1.3rem;
+  cursor: pointer;
+  margin-left: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+.ask-input-wrapper {
+  position: relative;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+.ask-emoji-icon {
+  position: absolute;
+  left: 12px;
+  font-size: 1.3rem;
+  cursor: pointer;
+  z-index: 2;
+  transition: transform 0.2s;
+}
+.ask-emoji-icon:hover {
+  transform: scale(1.2);
+}
+.with-emoji {
+  padding-left: 2.2rem !important;
+}
+.ask-quill.with-emoji .ql-editor {
+  padding-left: 2.2rem;
+}
+body.dark-mode .ask-form {
+  background: #23272f;
+  color: #e2e8f0;
+}
+body.dark-mode .ask-title {
+  color: #63b3ed;
+}
+body.dark-mode .ask-input {
+  background: #181a1b;
+  color: #e2e8f0;
+  border-color: #2d3748;
+}
+body.dark-mode .ask-btn {
+  background: linear-gradient(90deg, #3182ce 0%, #e53e3e 100%);
+  color: #fff;
+}
+body.dark-mode .ask-error {
+  color: #e53e3e;
+}
+/* Position emoji picker popup beside the emoji icon */
+.ask-emoji-picker-popup {
+  position: absolute;
+  left: 40px; /* adjust as needed to be beside the icon */
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 10;
+  box-shadow: 0 2px 12px rgba(49,130,206,0.12);
+}
+/* For dark mode */
+body.dark-mode .ask-emoji-picker-popup {
+  background: #23272f;
+  box-shadow: 0 2px 12px rgba(99,179,237,0.12);
+}
+.align-left {
+  text-align: left;
+}
+.align-center {
+  text-align: center;
+}
+.align-right {
+  text-align: right;
+}

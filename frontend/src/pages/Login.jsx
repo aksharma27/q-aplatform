@@ -2,6 +2,7 @@ import React, { useContext, useState } from 'react';
 import api from '../api'; // Adjust the import path as necessary
 import { AuthContext } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
+import './Register.css'; // Reuse Register.css for consistent style
 
 const Login = () => {
   const { login } = useContext(AuthContext);
@@ -34,26 +35,28 @@ const Login = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <div>
+    <div className="register-container">
+      <h2 className="register-title">Login to Stackit</h2>
+      <form className="register-form" onSubmit={handleSubmit}>
         <input
+          className="register-input"
+          type="email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           placeholder="Email"
         />
-        {errors.email && <span>{errors.email}</span>}
-      </div>
-      <div>
+        {errors.email && <span className="register-error">{errors.email}</span>}
         <input
+          className="register-input"
           type="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           placeholder="Password"
         />
-        {errors.password && <span>{errors.password}</span>}
-      </div>
-      <button type="submit">Login</button>
-    </form>
+        {errors.password && <span className="register-error">{errors.password}</span>}
+        <button className="register-btn" type="submit">Login</button>
+      </form>
+    </div>
   );
 };
 

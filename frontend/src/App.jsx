@@ -7,6 +7,7 @@ import Register from './pages/Register';
 import AskQuestion from './pages/AskQuesion';
 import QuestionDetail from './pages/QuestionDetail';
 import AdminDashboard from './pages/AdminDashboard';
+import Dashboard from './pages/Dashboard';
 import { AuthProvider, AuthContext } from './context/AuthContext';
 
 const ProtectedRoute = ({ element: Element, role }) => {
@@ -31,6 +32,7 @@ const App = () => {
             path="/admin"
             element={<ProtectedRoute element={AdminDashboard} role="admin" />}
           />
+          <Route path="/dashboard" element={<Dashboard />} />
         </Routes>
       </Router>
     </AuthProvider>

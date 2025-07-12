@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import api from '../api';
+import './Register.css';
 
 const Register = () => {
   const [username, setUsername] = useState('');
@@ -29,15 +30,18 @@ const Register = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <input value={username} onChange={(e) => setUsername(e.target.value)} placeholder="Username" />
-      {errors.username && <p>{errors.username}</p>}
-      <input value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Email" />
-      {errors.email && <p>{errors.email}</p>}
-      <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Password" />
-      {errors.password && <p>{errors.password}</p>}
-      <button type="submit">Register</button>
-    </form>
+    <div className="register-container">
+      <h2 className="register-title">Create your Stackit account</h2>
+      <form className="register-form" onSubmit={handleSubmit}>
+        <input className="register-input" type="text" value={username} onChange={e => setUsername(e.target.value)} placeholder="Username" />
+        {errors.username && <span className="register-error">{errors.username}</span>}
+        <input className="register-input" type="email" value={email} onChange={e => setEmail(e.target.value)} placeholder="Email" />
+        {errors.email && <span className="register-error">{errors.email}</span>}
+        <input className="register-input" type="password" value={password} onChange={e => setPassword(e.target.value)} placeholder="Password" />
+        {errors.password && <span className="register-error">{errors.password}</span>}
+        <button className="register-btn" type="submit">Register</button>
+      </form>
+    </div>
   );
 };
 

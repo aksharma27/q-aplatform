@@ -1,0 +1,66 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Roboto:wght@400;500&display=swap');
+
+.register-container {
+  font-family: 'Roboto', Arial, sans-serif;
+  max-width: 400px;
+  margin: 3rem auto;
+  background: #fff;
+  border-radius: 14px;
+  box-shadow: 0 2px 16px rgba(49,130,206,0.10);
+  padding: 2.5rem 2rem 2rem 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.register-title {
+  font-family: 'Montserrat', Arial, sans-serif;
+  font-size: 2rem;
+  color: #3182ce;
+  margin-bottom: 2rem;
+  text-align: center;
+  letter-spacing: 1px;
+}
+.register-form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+.register-input {
+  font-size: 1.08rem;
+  padding: 0.7rem 1rem;
+  border-radius: 8px;
+  border: 1.5px solid #cbd5e1;
+  background: #f7fafc;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  outline: none;
+  font-family: 'Roboto', Arial, sans-serif;
+  cursor: url('https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f4dd.svg'), pointer;
+}
+.register-input:focus {
+  border-color: #3182ce;
+  box-shadow: 0 0 0 2px #3182ce33;
+}
+.register-btn {
+  background: linear-gradient(90deg, #3182ce 0%, #38a169 100%);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 0.7rem 1.2rem;
+  font-size: 1.1rem;
+  font-family: 'Montserrat', Arial, sans-serif;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.2s, box-shadow 0.2s;
+  box-shadow: 0 2px 8px rgba(49,130,206,0.08);
+}
+.register-btn:hover {
+  background: linear-gradient(90deg, #2b6cb0 0%, #2f855a 100%);
+}
+.register-error {
+  color: #e53e3e;
+  font-size: 0.95rem;
+  margin-top: -0.8rem;
+  margin-bottom: 0.2rem;
+  font-family: 'Roboto', Arial, sans-serif;
+}

@@ -1,0 +1,94 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Roboto:wght@400;500&display=swap');
+
+.home-container {
+  font-family: 'Roboto', Arial, sans-serif;
+  max-width: 700px;
+  margin: 2rem auto;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+  padding: 2rem;
+}
+.home-title {
+  font-family: 'Montserrat', Arial, sans-serif;
+  font-size: 2.2rem;
+  color: #2d3748;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+.home-filter {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+.home-select {
+  padding: 0.4rem 1rem;
+  border-radius: 6px;
+  border: 1px solid #cbd5e1;
+  font-size: 1rem;
+  background: #f7fafc;
+  transition: border-color 0.2s;
+}
+.home-select:focus {
+  border-color: #3182ce;
+}
+.question-card {
+  background: #f7fafc;
+  border-radius: 8px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+  margin-bottom: 1.2rem;
+  padding: 1.2rem;
+  transition: box-shadow 0.2s;
+}
+.question-card:hover {
+  box-shadow: 0 4px 16px rgba(49,130,206,0.12);
+}
+.question-link {
+  text-decoration: none;
+}
+.question-title {
+  font-family: 'Montserrat', Arial, sans-serif;
+  color: #3182ce;
+  margin-bottom: 0.5rem;
+  transition: color 0.2s;
+}
+.question-link:hover .question-title {
+  color: #2b6cb0;
+}
+.question-desc {
+  font-size: 1.08rem;
+  color: #4a5568;
+  margin-bottom: 0.5rem;
+}
+.question-tags {
+  font-size: 0.95rem;
+  color: #718096;
+}
+
+body.dark-mode .home-container {
+  background: #23272f;
+  color: #e2e8f0;
+}
+body.dark-mode .question-card {
+  background: #181a1b;
+  color: #e2e8f0;
+  box-shadow: 0 1px 4px rgba(49,130,206,0.10);
+}
+body.dark-mode .home-title {
+  color: #63b3ed;
+}
+body.dark-mode .question-title {
+  color: #e53e3e;
+}
+body.dark-mode .question-link:hover .question-title {
+  color: #3182ce;
+}
+body.dark-mode .question-tags {
+  color: #a0aec0;
+}
+body.dark-mode .home-select {
+  background: #23272f;
+  color: #e2e8f0;
+  border-color: #2d3748;
+}

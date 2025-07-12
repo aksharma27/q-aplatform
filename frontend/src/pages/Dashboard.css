@@ -1,0 +1,52 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Roboto:wght@400;500&display=swap');
+
+.dashboard-container {
+  font-family: 'Roboto', Arial, sans-serif;
+  max-width: 700px;
+  margin: 2rem auto;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+  padding: 2rem;
+}
+.dashboard-title {
+  font-family: 'Montserrat', Arial, sans-serif;
+  font-size: 2rem;
+  color: #3182ce;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+.dashboard-profile {
+  background: #f7fafc;
+  border-radius: 8px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+  margin-bottom: 2rem;
+  padding: 1.2rem;
+}
+.dashboard-profile h3 {
+  font-family: 'Montserrat', Arial, sans-serif;
+  color: #2d3748;
+  margin-bottom: 0.5rem;
+}
+.dashboard-questions {
+  margin-top: 1.5rem;
+}
+.dashboard-question-card {
+  background: #f7fafc;
+  border-radius: 8px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+  margin-bottom: 1.2rem;
+  padding: 1.2rem;
+  transition: box-shadow 0.2s;
+}
+.dashboard-question-card:hover {
+  box-shadow: 0 4px 16px rgba(49,130,206,0.12);
+}
+.dashboard-question-card h4 {
+  font-family: 'Montserrat', Arial, sans-serif;
+  color: #3182ce;
+  margin-bottom: 0.5rem;
+}
+.dashboard-question-card small {
+  color: #718096;
+}
