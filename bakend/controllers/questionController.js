@@ -1,5 +1,7 @@
 const Question = require('../model/question');
 const Answer = require('../model/answer');
+const User = require('../model/user');
+const notificationController = require('./notificationController');
 
 exports.createQuestion = async (req, res) => {
   try {
@@ -16,6 +18,16 @@ exports.createQuestion = async (req, res) => {
       tags,
       author: req.user.id
     });
+
+    // Notify tagged users
+    if (Array.isArray(tags)) {
+      for (const tag of tags) {
+        const user = await User.findOne({ username: tag });
+        if (user) {
+          await notificationController.notifyOnTag(question, user._id);
+        }
+      }
+    }
     res.status(201).json(question);
   } catch (err) {
     res.status(500).json({ msg: 'Failed to post question', error: err.message });

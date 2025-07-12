@@ -1,6 +1,7 @@
 const Answer = require('../model/answer');
 const Question = require('../model/question');
 const Notification = require('../model/Notification');
+const notificationController = require('../controllers/notificationController');
 
 exports.addAnswer = async (req, res) => {
   try {
@@ -29,6 +30,8 @@ exports.addAnswer = async (req, res) => {
         link: `/questions/${question._id}`
       });
     }
+
+    await notificationController.notifyOnAnswer(answer);
 
     const io = req.app.get('io');
     io.emit('answerAdded', { questionId: req.params.questionId, answer });

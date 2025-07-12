@@ -2,23 +2,34 @@ import React, { useContext, useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
 import { io } from 'socket.io-client';
+import api from '../api';
 import './Navbar.css';
 
 const Navbar = () => {
   const { user, logout } = useContext(AuthContext);
   const navigate = useNavigate();
   const [darkMode, setDarkMode] = useState(false);
+  const [notifications, setNotifications] = useState([]);
   const [notificationCount, setNotificationCount] = useState(0);
-  const [hasNotification, setHasNotification] = useState(false);
 
   useEffect(() => {
+    if (!user) return;
+    const fetchNotifications = async () => {
+      const token = localStorage.getItem('token');
+      const res = await api.get('/notifications', {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      setNotifications(res.data);
+      setNotificationCount(res.data.filter(n => !n.read).length);
+    };
+    fetchNotifications();
+
     const socket = io();
     socket.on('notification', () => {
-      setNotificationCount(prev => prev + 1);
-      setHasNotification(true);
+      fetchNotifications();
     });
     return () => socket.disconnect();
-  }, []);
+  }, [user]);
 
   const handleLogout = () => {
     logout();
@@ -52,8 +63,8 @@ const Navbar = () => {
         <div className="notification-container">
           <span className="notification-icon">
             <i className="fas fa-bell"></i>
-            {hasNotification && (
-              <span className="notification-badge" style={{width: '12px', height: '12px', padding: 0, borderRadius: '50%', top: '-4px', right: '-4px', background: '#e53e3e', display: 'inline-block'}}></span>
+            {notificationCount > 0 && (
+              <span className="notification-badge" style={{width: '12px', height: '12px', padding: 0, borderRadius: '50%', top: '-4px', right: '-4px', background: '#e53e3e', display: 'inline-block'}}>{notificationCount}</span>
             )}
           </span>
         </div>
